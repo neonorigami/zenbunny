@@ -200,7 +200,7 @@ Controller:
  Bunny:
 "update"
     simObject.node.rotation += 0.1;
-/*
+*/
 
 
 function animate() {
