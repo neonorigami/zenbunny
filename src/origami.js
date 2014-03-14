@@ -28,7 +28,7 @@ stage.addChild(bunny);
 var animals = [];
 animals.push(bunny);
 
-$(renderer.view).get(0).addEventListener("pointerdown", function(e) {
+renderer.view.addEventListener("mousedown", function(e) {
     var p = {x: e.clientX,y: e.clientY}
     var bunny = new PIXI.Sprite(texture);
 
