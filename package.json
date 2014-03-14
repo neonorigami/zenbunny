@@ -1,0 +1,21 @@
+{
+	"name":"game",
+	"version":"0.0.1",
+	"dependencies":{
+		"express":"2.5.x"
+	},
+	"scripts":{
+		"start":"server.js"
+	},
+    "main": "index.html",
+    "window": {
+        "title": "game",
+        "toolbar": false,
+        "frame": true,
+        "width": 1000,
+        "height": 600,
+        "position": "center",
+        "icon": "icon.png",
+        "resizable": true
+    }
+}
