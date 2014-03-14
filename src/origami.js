@@ -27,17 +27,16 @@ stage.addChild(bunny);
 
 var animals = [];
 animals.push(bunny);
-stage.interactive = true;
-renderer.view.addEventListener("touchstart", function(e) {
-    console.log("blah"+e);
-    var p = {x: e.clientX,y: e.clientY}
+
+var pointerDown = function(x,y){
+    var p = {x: x,y: y}
     var bunny = new PIXI.Sprite(texture);
 
-// center the sprites anchor point
+    // center the sprites anchor point
     bunny.anchor.x = 0.5;
     bunny.anchor.y = 0.5;
 
-// move the sprite t the center of the screen
+    // move the sprite t the center of the screen
     bunny.position.x = p.x;
     bunny.position.y = p.y;
 
@@ -47,7 +46,22 @@ renderer.view.addEventListener("touchstart", function(e) {
     new Howl({
         urls: ['gong.ogg','gong.mp3']
     }).play();
-},false);
+};
+
+if(navigator.isCocoonJS){
+    renderer.view.addEventListener("touchstart", function(e) {
+        var x = e.touches[0].clientX;
+        var y = e.touches[0].clientY;
+        pointerDown(x,y);
+    },false);
+}
+else {
+    renderer.view.addEventListener("mousedown", function(e) {
+        var x = e.clientX;
+        var y = e.clientY;
+        pointerDown(x,y);
+    },false);
+}
 
 function animate() {
 
