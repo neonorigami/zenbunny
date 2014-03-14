@@ -45,7 +45,7 @@ Hammer(renderer.view).on("tap", function(e) {
 
     animals.push(bunny);
     new Howl({
-        urls: ['gong.ogg']
+        urls: ['gong.ogg','gong.mp3']
     }).play();
 });
 
