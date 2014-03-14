@@ -27,8 +27,9 @@ stage.addChild(bunny);
 
 var animals = [];
 animals.push(bunny);
-
-renderer.view.addEventListener("mousedown", function(e) {
+stage.interactive = true;
+renderer.view.addEventListener("touchstart", function(e) {
+    console.log("blah"+e);
     var p = {x: e.clientX,y: e.clientY}
     var bunny = new PIXI.Sprite(texture);
 
@@ -46,7 +47,7 @@ renderer.view.addEventListener("mousedown", function(e) {
     new Howl({
         urls: ['gong.ogg','gong.mp3']
     }).play();
-});
+},false);
 
 function animate() {
 
