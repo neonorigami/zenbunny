@@ -43,6 +43,7 @@ var pointerDown = function(x,y){
     stage.addChild(bunny);
 
     animals.push(bunny);
+    console.log("play sound")
     new Howl({
         urls: ['gong.ogg','gong.mp3']
     }).play();
