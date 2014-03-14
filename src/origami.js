@@ -28,9 +28,8 @@ stage.addChild(bunny);
 var animals = [];
 animals.push(bunny);
 
-Hammer(renderer.view).on("tap", function(e) {
-    var touch = e.gesture.touches[0];
-    var p = {x: touch.clientX,y: touch.clientY}
+$(renderer.view).get(0).addEventListener("pointerdown", function(e) {
+    var p = {x: e.clientX,y: e.clientY}
     var bunny = new PIXI.Sprite(texture);
 
 // center the sprites anchor point
