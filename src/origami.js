@@ -106,8 +106,6 @@ var CocoonJS = {};
 
 })();
 
-
-
 // create an new instance of a pixi stage
 var stage = new PIXI.Stage(0x66FF99);
 
@@ -122,51 +120,14 @@ requestAnimFrame(animate);
 // create a texture from an image path
 var texture = PIXI.Texture.fromImage("bunny.png");
 
-// create a new Sprite using the texture
-var bunny = new PIXI.Sprite(texture);
 
-// center the sprites anchor point
-bunny.anchor.x = 0.5;
-bunny.anchor.y = 0.5;
-
-// move the sprite t the center of the screen
-bunny.position.x = 200;
-bunny.position.y = 150;
-
-stage.addChild(bunny);
-
-var animals = [];
-animals.push(bunny);
 
 var pointerDown = function(x,y){
     var p = {x: x,y: y}
-    var bunny = new PIXI.Sprite(texture);
 
-    // center the sprites anchor point
-    bunny.anchor.x = 0.5;
-    bunny.anchor.y = 0.5;
-
-    // move the sprite t the center of the screen
-    bunny.position.x = p.x;
-    bunny.position.y = p.y;
-
-    stage.addChild(bunny);
+    EventHandler.triggerGlobalEvent("onclick",p);
 
     animals.push(bunny);
-    console.log("play sound")
-
-    if(navigator.isCocoonJS){
-        var s01= new Audio();
-        s01.src= "gong.ogg";
-        var c = new CocoonJS.Audio();
-        c.setAudio(s01);
-        c.play();
-    }
-    else {
-        new Howl({
-            urls: ['gong.ogg','gong.mp3']
-        }).play();
-    }
 };
 
 if(navigator.isCocoonJS){
@@ -184,15 +145,69 @@ else {
     },false);
 }
 
+var Controller = new SimulationObject({},[
+    new Behavior([
+        new State([
+            new EventHandler("onclick",function(simObject,point){
+                //instantiate bunny
+                var b = new SimulationObject({x:point.x,y:point.y},[
+                    new Behavior([
+                        new State([
+                            new EventHandler("awake",function(simObject){
+                                var bunny = new PIXI.Sprite(texture);
+                                // center the sprites anchor point
+                                bunny.anchor.x = 0.5;
+                                bunny.anchor.y = 0.5;
+                                // move the sprite t the center of the screen
+                                bunny.position.x = simObject.x;
+                                bunny.position.y = simObject.y;
+                                simObject.node = bunny;
+                                stage.addChild(bunny);
+                            }),
+                            new EventHandler("update",function(simObject){
+                                simObject.node.rotation += 0.1;
+                            })
+                        ])
+                    ])
+                ]);
+
+                //play sound calling through some sound interface
+                if(navigator.isCocoonJS){
+                    var s01= new Audio();
+                    s01.src= "gong.ogg";
+                    var c = new CocoonJS.Audio();
+                    c.setAudio(s01);
+                    c.play();
+                }
+                else {
+                    new Howl({
+                        urls: ['gong.ogg','gong.mp3']
+                    }).play();
+                }
+            })
+        ])
+    ])
+]);
+
+
+/*
+
+Controller:
+"onclick"
+    create("Bunny",{x:e.x},{y:e.y})
+    playSound(["gong.ogg","gong.mp3"])
+
+ Bunny:
+"update"
+    simObject.node.rotation += 0.1;
+/*
+
+
 function animate() {
 
     requestAnimFrame( animate );
 
-    // just for fun, let's rotate mr rabbit a little
-    for(var i in animals){
-        animals[i].rotation += 0.1;
-    }
-
+    EventHandler.triggerGlobalEvent("update",1/60);
 
     // render the stage
     renderer.render(stage);
