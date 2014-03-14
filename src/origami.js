@@ -1,3 +1,5 @@
+var CocoonJS = {};
+
 (function() {
     CocoonJS.Audio= function() {
         return this;
