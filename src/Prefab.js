@@ -15,3 +15,9 @@ Prefab.create = function(name,props){
     Prefab.Prefabs[name] = prefab;
     return new PrefabFluent(prefab);
 }
+
+
+Prefab.prototype.getProperty = function( name ) {
+    if( this[name] == undefined ) return null;
+    return this[name];
+}

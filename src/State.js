@@ -1,10 +1,11 @@
-var State = function(eventHandlers){
+var State = function(name,eventHandlers){
+    this.name = name;
     this.eventHandlers = eventHandlers;
 }
 
 State.prototype.enter = function(simObject){
     for(var i in this.eventHandlers){
-        this.eventHandlers[i].activate(simObject);
+        this.eventHandlers[i].activate(simObject,this);
     }
 }
 

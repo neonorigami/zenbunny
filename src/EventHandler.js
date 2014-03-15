@@ -17,6 +17,7 @@ EventHandler.addToChannel = function(channel, handler){
 EventHandler.prototype.activate = function(simObject,state){
     EventHandler.addToChannel(this.channel,
         {
+            context: new EventContext(simObject,state.behavior),
             simObject : simObject,
             state: state,
             handler: this.handler

@@ -9,9 +9,9 @@ PrefabFluent.prototype.withBehavior = function(){
     return this;
 }
 
-PrefabFluent.prototype.withState = function(){
-    var state = new State([]);
-    this.currentBehavior.states.push(state);
+PrefabFluent.prototype.withState = function(name){
+    var state = new State(name,[]);
+    this.currentBehavior.addState(state);
     this.currentState = state;
     return this;
 }

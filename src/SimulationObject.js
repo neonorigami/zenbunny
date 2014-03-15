@@ -41,7 +41,7 @@ SimulationObject.triggerGlobalEvent = function(channel,arg){
     var eventDefinition = EventHandler.Channels[channel];
     for(var i in eventDefinition){
         var eventDef = eventDefinition[i];
-        eventDef.handler.call(null,eventDef.simObject,arg)
+        eventDef.handler.call(null,eventDef.context,arg)
     }
 }
 
@@ -50,9 +50,24 @@ SimulationObject.triggerEvent = function(simObject, channel,arg){
     for(var i in eventDefinition){
         var eventDef = eventDefinition[i];
         if(eventDef.simObject == simObject){
-            eventDef.handler.call(null,eventDef.simObject,arg);
+            eventDef.handler.call(null,eventDef.context,arg);
         }
     }
 }
 
+SimulationObject.prototype.getProperty = function( name ) {
+    var result = null;
+    if( this[name] !== undefined ) {
+        result = this[name];
+    }
+    else if( this.prefab !== undefined && this.prefab !== null ) {
+        result = this.prefab.getProperty( name );
+    }
+
+    return result;
+}
+
+SimulationObject.prototype.setProperty = function( name, value ) {
+    this[name] = value;
+}
 
