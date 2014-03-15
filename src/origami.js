@@ -125,7 +125,7 @@ var texture = PIXI.Texture.fromImage("bunny.png");
 var pointerDown = function(x,y){
     var p = {x: x,y: y}
 
-    SimulationObject.triggerGlobalEvent("onclick",p);
+    SimulationObject.triggerGlobalEvent("mousedown",p);
 };
 
 if(navigator.isCocoonJS){
@@ -140,6 +140,12 @@ else {
         var x = e.clientX;
         var y = e.clientY;
         pointerDown(x,y);
+    },false);
+    document.addEventListener("keydown", function(e){
+        SimulationObject.triggerGlobalEvent("keydown", e);
+    },false);
+    document.addEventListener("keyup", function(e){
+        SimulationObject.triggerGlobalEvent("keyup", e);
     },false);
 }
 
@@ -160,70 +166,6 @@ var Game = {
         }
     }
 };
-
-
-
-
-
-
-
-
-
-/*Prefab.create("Controller").withBehavior().withState()
-    .withEventHandler("onclick",function(simObject,point){
-        //instantiate bunny
-        SimulationObject.instantiate("Bunny",{x:point.x,y:point.y})
-        Game.playSound(['gong.ogg','gong.mp3']);
-    });*/
-
-Prefab.create("Bunny").withBehavior()
-    .withState("start")
-    .withEventHandler("awake",function(context){
-        var bunny = new PIXI.Sprite(texture);
-        // center the sprites anchor point
-        bunny.anchor.x = 0.5;
-        bunny.anchor.y = 0.5;
-        // move the sprite t the center of the screen
-        bunny.position.x = context.getProperty("x");
-        bunny.position.y = context.getProperty("y");
-        stage.addChild(bunny);
-        context.setProperty("node",bunny);
-    })
-    .withEventHandler("step",function(context,args){
-        context.getProperty("node").x += Math.random()*100-50;
-        context.getProperty("node").y += Math.random()*100-50;
-    });
-
-SimulationObject.instantiate("Bunny",{x:100,y:100})
-SimulationObject.instantiate("Bunny",{x:200,y:100})
-SimulationObject.instantiate("Bunny",{x:100,y:200})
-SimulationObject.instantiate("Bunny",{x:200,y:200})
-
-Prefab.create("Player").withBehavior()
-    .withState("start")
-    .withEventHandler("onclick",function(context,args){
-        SimulationObject.triggerGlobalEvent("step",{x:args.x,y:args.y, player: context.simObj});
-    })
-
-SimulationObject.instantiate("Player")
-/*SimulationObject.create("Controller")
-    .addBehavior()
-    .addState("StartState")
-    .addEventHandler("onclick", )*/
-
-
-/*
-
-Controller:
-"onclick"
-    create("Bunny",{x:e.x},{y:e.y})
-    playSound(["gong.ogg","gong.mp3"])
-
- Bunny:
-"update"
-    simObject.node.rotation += 0.1;
-*/
-
 
 function animate() {
 
