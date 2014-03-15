@@ -14,13 +14,12 @@ EventHandler.addToChannel = function(channel, handler){
     EventHandler.Channels[channel].push(handler);
 }
 
-EventHandler.triggerGlobalEvent = function(channel,arg){
-    var clickHandlers = EventHandler.Channels[channel];
-    for(var i in clickHandlers){
-        clickHandlers[i].handler.call(null,clickHandlers[i].state.behavior.simObject,arg)
-    }
+EventHandler.prototype.activate = function(simObject,state){
+    EventHandler.addToChannel(this.channel,
+        {
+            simObject : simObject,
+            state: state,
+            handler: this.handler
+        }
+    );
 }
-
-EventHandler.prototype.init = function(state){
-    this.state = state;
-};
