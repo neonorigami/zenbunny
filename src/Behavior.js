@@ -1,4 +1,5 @@
-var Behavior = function(states){
+var Behavior = function(name, states){
+    this.name = name;
     this.states = states;
 }
 

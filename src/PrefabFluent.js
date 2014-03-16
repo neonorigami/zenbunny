@@ -2,9 +2,14 @@ var PrefabFluent = function(prefab){
     this.prefab = prefab;
 }
 
-PrefabFluent.prototype.withBehavior = function(){
-    var beh = new Behavior([]);
-    this.prefab.behaviors.push(beh);
+PrefabFluent.prototype.withProperty = function( name, value ) {
+    this.prefab.setProperty( name, value );
+    return this;
+}
+
+PrefabFluent.prototype.withBehavior = function( name ){
+    var beh = new Behavior(name, []);
+    this.prefab.behaviors[name] = beh;
     this.currentBehavior= beh;
     return this;
 }
