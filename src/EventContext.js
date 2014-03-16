@@ -26,5 +26,19 @@ EventContext.prototype.changeState = function(state){
         }
     }
     this.behavior.getStateByName(state).enter(this.simObj);
-    //this.behavior.changeState(this.simObj,state);
+}
+
+EventContext.prototype.getInstancesOfPrefab = function(name){
+    var p = Prefab.Prefabs[name];
+    var instances = [];
+    for(var i in SimulationObject.Instances){
+        if(SimulationObject.Instances[i].prefab == p){
+            instances.push(SimulationObject.Instances[i]);
+        }
+    }
+    return instances;
+}
+
+EventContext.prototype.destroy = function(){
+    this.simObj.destroy();
 }

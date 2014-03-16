@@ -117,8 +117,6 @@ document.body.appendChild(renderer.view);
 
 requestAnimFrame(animate);
 
-// create a texture from an image path
-var texture = PIXI.Texture.fromImage("bunny.png");
 
 
 

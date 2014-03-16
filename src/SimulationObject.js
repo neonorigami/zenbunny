@@ -24,8 +24,6 @@ var SimulationObject = function(prefab,props){
     SimulationObject.triggerEvent(this,"awake",this,null);
 }
 
-SimulationObject.Prefabs = {};
-
 SimulationObject.Instances = [];
 
 SimulationObject.create = function(name,behaviors){
@@ -33,7 +31,7 @@ SimulationObject.create = function(name,behaviors){
 }
 
 SimulationObject.instantiate = function(name,props){
-    new SimulationObject(Prefab.Prefabs[name],props);
+    SimulationObject.Instances.push(new SimulationObject(Prefab.Prefabs[name],props));
 };
 
 
@@ -71,3 +69,20 @@ SimulationObject.prototype.setProperty = function( name, value ) {
     this[name] = value;
 }
 
+SimulationObject.prototype.destroy = function(){
+    SimulationObject.triggerEvent(this,"destroy");
+    for(var i in EventHandler.Channels){
+        var toRemove = [];
+        for(var j in EventHandler.Channels[i]){
+            var def = EventHandler.Channels[i][j];
+            if(def.simObject == this){
+                toRemove.push(def);
+            }
+        }
+        for(var j in toRemove){
+            var ix = EventHandler.Channels[i].indexOf(toRemove[j]);
+            EventHandler.Channels[i].splice(ix,1);
+        }
+    }
+    SimulationObject.Instances.splice(SimulationObject.Instances.indexOf(this),1);
+}

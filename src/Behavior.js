@@ -18,5 +18,5 @@ Behavior.prototype.getStateByName = function(name){
 
 
 Behavior.prototype.getStartState = function() {
-    return this.states[0];
+    return this.getStateByName("start")||this.states[0];
 }
